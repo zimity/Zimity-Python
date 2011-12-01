@@ -12,17 +12,14 @@
    <div class="span10">
 
    <ul class="media-grid">
-
-      <?php
-       foreach ($imprints as $imprint) {
-          if ($imprint['Imprint']['imp_type'] == 2) {
-             echo '<li>' . $this->Html->link($this->Html->image('http://s3.zimity.me/' . $imprint['Imprint']['slug'] . '_s.jpg'), array('controller' => 'imprints', 'action' => 'view', $imprint['Imprint']['slug']), array('rel' => 'popover', 'title' => $imprint['User']['firstname'], 'data-content' => $imprint['Imprint']['note'], 'escape' => false)) . '</li>';
-          } else {
-             echo '<li>' . $this->Html->link($imprint['Imprint']['title'], array('controller' => 'imprints', 'action' => 'view', $imprint['Imprint']['slug'])) . '</li>';
-          }
-       }
-      ?>
-
+      
+      {% for imprint in imprints %}
+         {% if imprint.imp_type == 2 %}
+            <li><a href="/imprint/view/{{imprint.slug}}" rel="popover" title="firstname" data-content="{{imprint.content}}"><img src="http://s3.zimity.me/{{imprint.slug}}_s.jpg" /></a></li>
+         {% else %}
+            <li><a href="/imprint/view/{{imprint.slug}}" rel="popover" title="firstname" data-content="{{imprint.content}}">{{imprint.title}}</a></li>
+         {% endif %}
+      {% endfor %}
    </ul>
 
    </div>

@@ -5,19 +5,17 @@
 {% block content %}
 
         <div class="page-header">
-          <h1>Users  <small>Supporting text or tagline</small></h1>
+          <h1>Users <small>Supporting text or tagline</small></h1>
         </div>
 	
         <div class="row">
           <div class="span10">
 
 	  <ul class="media-grid">
-            
-            <?php
-	       foreach ($users as $user) {
-                  echo $this->Html->link($user['User']['firstname'], array('controller' => 'users', 'action' => 'view', $user['User']['id']));
-               }
-            ?>
+	    
+	    {% for user in users %}
+	       <a href="{% url user_index %}">{{ user.firstname }}</a>
+	    {% endfor %}
 
 	  </ul>
 

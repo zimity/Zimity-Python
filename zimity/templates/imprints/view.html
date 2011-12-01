@@ -5,10 +5,12 @@
 {% block content %}
 
   <ul class="breadcrumb">
-    <li><?php echo $this->Html->link('Home', array('controller' => 'pages', 'action' => 'display', 'home')); ?><span class="divider">/</span></li>
+    <li><span class="divider">/</span></li>
     <li><?php echo $this->Html->link('Imprints', array('controller' => 'imprints', 'action' => 'index')); ?><span class="divider">/</span></li>
     <li><?php echo $this->Html->link($imprint['Imprint']['slug'], array('controller' => 'imprints', 'action' => 'view', $imprint['Imprint']['slug'])); ?></li>
   </ul>
+  
+  {{ imprint.title }}
 
   <div class="page-header">
     <h1><?php echo $imprint['Imprint']['title']; ?></h1>

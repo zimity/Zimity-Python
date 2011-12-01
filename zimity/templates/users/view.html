@@ -5,9 +5,9 @@
 {% block content %}
 
   <ul class="breadcrumb">
-    <li><?php echo $this->Html->link('Home', array('controller' => 'pages', 'action' => 'display', 'home')); ?><span class="divider">/</span></li>
-    <li><?php echo $this->Html->link('Users', array('controller' => 'users', 'action' => 'index')); ?><span class="divider">/</span></li>
-    <li><?php echo $this->Html->link(ucfirst($user['User']['firstname']) . ' ' . ucfirst(substr($user['User']['lastname'], 0, 1)) . '.', array('controller' => 'users', 'action' => 'view', $user['User']['id'])); ?></li>
+    <li><a href="/">Home</a><span class="divider">/</span></li>
+    <li><a href="{% url user_index %}">Users</a><span class="divider"><span class="divider">/</span></li>
+    <li><a href="{% url user_index %}">{{ user.firstname }}</a></li>
   </ul>
 
   <div class="page-header">
@@ -33,6 +33,10 @@
           <h3>Photos</h3>
 
           <ul class="media-grid">
+	    {% for imprint in user.imprint_set.all %}
+	      <a href="">{{ imprint.title }}</a>
+	    {% endfor %}
+	    
             <?php
                     foreach ($user['Imprint'] as $imprint) {
                             if ($imprint['imp_type'] == 2) {

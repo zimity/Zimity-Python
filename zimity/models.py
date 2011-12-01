@@ -1,25 +1,27 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.contrib.auth.models import User
 
-class User(models.Model):
-    type = models.IntegerField()
-    firstname = models.CharField(max_length=20)
-    lastname = models.CharField(max_length=20)
+class UserProfile(models.Model):
+    # required field
+    user = models.OneToOneField(User)
+    
     quote = models.CharField(max_length=50)
     location = models.CharField(max_length=20)
     about = models.TextField()
-    email = models.EmailField()
-    activated = models.IntegerField()
-    activation_hash = models.CharField(max_length=40)
     facebook = models.CharField(max_length=50)
     twitter = models.CharField(max_length=50)
     google = models.CharField(max_length=50)
-    deleted = models.BooleanField()
-    created = models.DateTimeField('date created',auto_now_add=True)
-    modified = models.DateTimeField('date modified',auto_now=True)
     
     def __unicode__(self):
-        return self.firstname + ' ' + self.lastname
-        
+        return self.user.first_name
+    
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+post_save.connect(create_user_profile, sender=User)
+    
 class Imprint(models.Model):
     user = models.ForeignKey(User)
     slug = models.SlugField(max_length=6)
