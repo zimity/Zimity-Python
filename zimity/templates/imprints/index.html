@@ -15,9 +15,9 @@
       
       {% for imprint in imprints %}
          {% if imprint.imp_type == 2 %}
-            <li><a href="/imprint/view/{{imprint.slug}}" rel="popover" title="firstname" data-content="{{imprint.content}}"><img src="http://s3.zimity.me/{{imprint.slug}}_s.jpg" /></a></li>
+            <li><a href="/i/view/{{imprint.slug}}" rel="popover" title="firstname" data-content="{{imprint.content}}"><img src="http://s3.zimity.me/{{imprint.slug}}_s.jpg" /></a></li>
          {% else %}
-            <li><a href="/imprint/view/{{imprint.slug}}" rel="popover" title="firstname" data-content="{{imprint.content}}">{{imprint.title}}</a></li>
+            <li><a href="/i/view/{{imprint.slug}}" rel="popover" title="firstname" data-content="{{imprint.content}}">{{imprint.title}}</a></li>
          {% endif %}
       {% endfor %}
    </ul>

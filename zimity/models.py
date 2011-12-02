@@ -6,12 +6,12 @@ class UserProfile(models.Model):
     # required field
     user = models.OneToOneField(User)
     
-    quote = models.CharField(max_length=50)
-    location = models.CharField(max_length=20)
-    about = models.TextField()
-    facebook = models.CharField(max_length=50)
-    twitter = models.CharField(max_length=50)
-    google = models.CharField(max_length=50)
+    quote = models.CharField(max_length=50, blank=True)
+    location = models.CharField(max_length=20, blank=True)
+    about = models.TextField(blank=True)
+    facebook = models.CharField(max_length=50, blank=True)
+    twitter = models.CharField(max_length=50, blank=True)
+    google = models.CharField(max_length=50, blank=True)
     
     def __unicode__(self):
         return self.user.first_name
@@ -27,7 +27,7 @@ class Imprint(models.Model):
     slug = models.SlugField(max_length=6)
     imp_type = models.IntegerField()
     title = models.CharField(max_length=50)
-    content = models.TextField()
+    content = models.TextField(blank=True)
     latitude = models.DecimalField(max_digits=16,decimal_places=13)
     longitude = models.DecimalField(max_digits=16,decimal_places=13)
     altitude = models.IntegerField()
@@ -43,7 +43,7 @@ class Imprint(models.Model):
         return self.title
 
 
-class Comment(models.Model):
+'''class Comment(models.Model):
     imprint = models.ForeignKey(Imprint)
     user = models.ForeignKey(User, related_name='user_comment')
     content = models.TextField()
@@ -64,4 +64,4 @@ class Message(models.Model):
     modified = models.DateTimeField('date modified',auto_now=True)
     
     def __unicode__(self):
-        return self.content
+        return self.content'''

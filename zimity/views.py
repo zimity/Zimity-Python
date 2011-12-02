@@ -1,7 +1,9 @@
 # Create your views here.
-from zimity.models import User, Imprint, Comment, Message
+from zimity.models import *
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
+from django.core.context_processors import csrf
+from django.template import RequestContext
 
 def home(request):
     return render_to_response('pages/home.html')
@@ -26,7 +28,7 @@ def user_index(request):
     
 def user_view(request, id):
     user = get_object_or_404(User, pk=id)
-    return render_to_response('users/view.html', {'user': user})
+    return render_to_response('users/view.html', {'user': user}, context_instance=RequestContext(request))
     
 def user_add(request):
     return render_to_response('users/add.html')

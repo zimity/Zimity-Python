@@ -13,6 +13,8 @@ MANAGERS = ADMINS
 
 AUTH_PROFILE_MODULE = 'zimity.UserProfile'
 
+COMMENTS_APP = 'zimity'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -107,7 +109,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'Zimity-Python.urls'
 
 TEMPLATE_DIRS = (
-    '/Users/mjparinas/Documents/ZimityPython/zimity/templates'
+    '/Users/mjparinas/Documents/Zimity-Python/zimity/templates'
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -120,6 +122,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.comments',
     'zimity',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',

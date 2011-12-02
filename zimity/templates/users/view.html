@@ -7,13 +7,13 @@
   <ul class="breadcrumb">
     <li><a href="/">Home</a><span class="divider">/</span></li>
     <li><a href="{% url user_index %}">Users</a><span class="divider"><span class="divider">/</span></li>
-    <li><a href="{% url user_index %}">{{ user.firstname }}</a></li>
+    <li><a href="{% url user_index %}">{{ user.first_name }}</a></li>
   </ul>
-
+  
   <div class="page-header">
     <h1>
-    <?php echo ucfirst($user['User']['firstname']) . ' ' . ucfirst(substr($user['User']['lastname'], 0, 1)) . '.' ?>
-    <small><?php echo $user['User']['quote']; ?></small></h1>
+    {{ user.first_name }}
+    <small>{{ user.get_profile.quote }}</small></h1>
   </div>
 
   <div class="row">
@@ -113,30 +113,20 @@
           ?>
         </div>
       </div>
+      
+      {% load comments %}
 
-      <form action="" class="form-stacked">
-        <div class="clearfix">
-          <label for="comment">Wall Post</label>
-
-          <div class="input">
-            <textarea class="xxlarge" id="comment" name="comment" rows="3"></textarea>
-          </div>
-
-          <div class="actions">
-            <input type="submit" class="btn primary" value=
-            "Post" />&nbsp;<button type="reset" class="btn">Clear</button>
-          </div>
-        </div>
-      </form>
+      {% render_comment_form for user %}
 
       <table class="zebra-striped">
         <tbody>
-	  <?php
-//	  foreach($user['MessageReceived'] as $messages) {
-//	     echo '<tr><td>PIC</td><td>' . $messages['recipient_id'] . '</td>';
-  //            echo '<td>' . $messages['comment'] . '</td></tr>';
-	//  }
-          ?>
+	  {% get_comment_list for user as comment_list %}
+	  {% for comment in comment_list %}
+	     <tr>
+	        <td>{{ comment.name }}</td>
+	        <td>{{ comment.comment }}</td>
+	     </tr>
+	  {% endfor %}
         </tbody>
       </table>
     </div>
@@ -146,13 +136,13 @@
 
       <dl>
         <dt>Name</dt>
-        <dd><?php echo ucfirst($user['User']['firstname']) . ' ' . ucfirst(substr($user['User']['lastname'], 0, 1)) . '.' ?></dd>
+        <dd>{{ user.first_name }} {{ user.last_name }}</dd>
 
         <dt>Location</dt>
-        <dd><?php echo $user['User']['location']; ?></dd>
+        <dd>{{ user.get_profile.location }}</dd>
 
         <dt>About</dt>
-        <dd><?php echo $user['User']['about']; ?></dd>
+        <dd>{{ user.get_profile.about }}</dd>
       </dl>
     </div>
   </div>
@@ -163,9 +153,5 @@
   })
   //]]>
   </script>
-  
-<pre>
-  <?php echo print_r($user) ?>
-</pre>
 
 {% endblock content %}

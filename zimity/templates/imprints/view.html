@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
+{% load comments %}
+
 {% block title %} View {% endblock title %}
 
 {% block content %}
-
+  
   <ul class="breadcrumb">
     <li><span class="divider">/</span></li>
     <li><?php echo $this->Html->link('Imprints', array('controller' => 'imprints', 'action' => 'index')); ?><span class="divider">/</span></li>
@@ -11,7 +13,7 @@
   </ul>
   
   {{ imprint.title }}
-
+  
   <div class="page-header">
     <h1><?php echo $imprint['Imprint']['title']; ?></h1>
   </div>
@@ -26,12 +28,11 @@
 
       <p><?php echo $imprint['Imprint']['note']; ?></p>
       
-      <g:plusone size="small"></g:plusone>
       
-      <a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a>
-      
-      <div class="fb-like" data-href="<?php echo 'http://zimity.me/' . $this->here; ?>" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
-
+        <g:plusone size="medium" annotation="none"></g:plusone>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-text="Looking at great photos of real food on Foodtree right now." data-count="horizontal" data-via="foodtree"></a>
+        <div class="fb-like" data-send="false" data-layout="button_count" data-show-faces="false"></div>
+		  
       <form action="" class="form-stacked">
         <div class="clearfix">
           <label for="comment">Comment</label>
