@@ -14,7 +14,7 @@ def imprint_index(request):
     
 def imprint_view(request, slug):
     imprint = get_object_or_404(Imprint, slug=slug)
-    return render_to_response('imprints/view.html', {'imprint': imprint})
+    return render_to_response('imprints/view.html', {'imprint': imprint}, context_instance=RequestContext(request))
     
 def imprint_add(request):
     return render_to_response('imprints/add.html')

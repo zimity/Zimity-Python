@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Register {% endblock title %}
+{% block title %} {{ user.first_name }}'s Profile {% endblock title %}
 
 {% block content %}
 
@@ -34,83 +34,83 @@
 
           <ul class="media-grid">
 	    {% for imprint in user.imprint_set.all %}
-	      <a href="">{{ imprint.title }}</a>
+	      {% if imprint.type == imprint.PHOTO %}
+	      <li><a rel="popover" title="{{ imprint.title }}" href="{% url imprint_view imprint.slug %}"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
+	      {% endif %}
 	    {% endfor %}
-	    
-            <?php
-                    foreach ($user['Imprint'] as $imprint) {
-                            if ($imprint['imp_type'] == 2) {
-                                    echo '<li><a rel="popover" title="' . $imprint['title'] . '" href="/i/' . $imprint['slug'] . '"><img alt="' . $imprint['title'] . '" src="http://s3.zimity.me/' . $imprint['slug'] . '_s.jpg" /></a></li>';
-                            }
-                    }
-            ?>
           </ul>
         </div>
 
         <div id="videos">
           <h3>Videos</h3>
-	  <?php
-                  foreach ($user['Imprint'] as $imprint) {
-                          if ($imprint['imp_type'] == 4) {
-                                  echo $imprint['note'] . '<br />';
-                          }
-                  }
-          ?>
+	  
+	  <ul class="media-grid">
+	    {% for imprint in user.imprint_set.all %}
+	      {% if imprint.type == imprint.VIDEO %}
+	      <li><a rel="popover" title="{{ imprint.title }}" href="{% url imprint_view imprint.slug %}"><img alt="{{ imprint.title }}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
+	      {% endif %}
+	    {% endfor %}
+	  </ul>
         </div>
 
         <div id="notes">
           <h3>Notes</h3>
-	  <?php
-                  foreach ($user['Imprint'] as $imprint) {
-                          if ($imprint['imp_type'] == 1) {
-                                  echo $this->Html->link($imprint['note'], array('controller' => 'imprints', 'action' => 'view', $imprint['slug'])) . '<br />';
-                          }
-                  }
-          ?>
+	  
+	  <ul class="media-grid">
+	    {% for imprint in user.imprint_set.all %}
+	      {% if imprint.type == imprint.NOTE %}
+	      <li><a rel="popover" title="{{ imprint.title }}" href="{% url imprint_view imprint.slug %}">{{ imprint.title }}</a></li>
+	      {% endif %}
+	    {% endfor %}
+	  </ul>
         </div>
 
         <div id="audio">
           <h3>Audio</h3>
-	  <?php
-                  foreach ($user['Imprint'] as $imprint) {
-                          if ($imprint['imp_type'] == 3) {
-                                  echo $this->Html->link($imprint['note'], array('controller' => 'imprints', 'action' => 'view', $imprint['slug'])) . '<br />';
-                          }
-                  }
-          ?>
+	  
+	  <ul class="media-grid">
+	    {% for imprint in user.imprint_set.all %}
+	      {% if imprint.type == imprint.AUDIO %}
+	      <li><a rel="popover" title="{{ imprint.title }}" href="{% url imprint_view imprint.slug %}"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
+	      {% endif %}
+	    {% endfor %}
+	  </ul>
         </div>
 
         <div id="events">
           <h3>Events</h3>
-	  <?php
-                  foreach ($user['Imprint'] as $imprint) {
-                          if ($imprint['imp_type'] == 5) {
-                                  echo $imprint['note'] . '<br />';
-                          }
-                  }
-          ?>
+	  
+	  <ul class="media-grid">
+	    {% for imprint in user.imprint_set.all %}
+	      {% if imprint.type == imprint.EVENT %}
+	      <li><a rel="popover" title="{{ imprint.title }}" href="{% url imprint_view imprint.slug %}"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
+	      {% endif %}
+	    {% endfor %}
+	  </ul>
         </div>
 
         <div id="reminders">
           <h3>Reminders</h3>
-	  <?php
-                  foreach ($user['Imprint'] as $imprint) {
-                          if ($imprint['imp_type'] == 6) {
-                                  echo $imprint['note'] . '<br />';
-                          }
-                  }
-          ?>
+	  
+	  <ul class="media-grid">
+	    {% for imprint in user.imprint_set.all %}
+	      {% if imprint.type == imprint.REMINDER %}
+	      <li><a rel="popover" title="{{ imprint.title }}" href="{% url imprint_view imprint.slug %}"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
+	      {% endif %}
+	    {% endfor %}
+	  </ul>
         </div>
 
         <div id="deals">
           <h3>Deals</h3>
-	  <?php
-                  foreach ($user['Imprint'] as $imprint) {
-                          if ($imprint['imp_type'] == 7) {
-                                  echo $imprint['note'] . '<br />';
-                          }
-                  }
-          ?>
+	  
+	  <ul class="media-grid">
+	    {% for imprint in user.imprint_set.all %}
+	      {% if imprint.type == imprint.DEAL %}
+	      <li><a rel="popover" title="{{ imprint.title }}" href="{% url imprint_view imprint.slug %}"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
+	      {% endif %}
+	    {% endfor %}
+	  </ul>
         </div>
       </div>
       

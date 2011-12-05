@@ -7,55 +7,43 @@
 {% block content %}
   
   <ul class="breadcrumb">
-    <li><span class="divider">/</span></li>
-    <li><?php echo $this->Html->link('Imprints', array('controller' => 'imprints', 'action' => 'index')); ?><span class="divider">/</span></li>
-    <li><?php echo $this->Html->link($imprint['Imprint']['slug'], array('controller' => 'imprints', 'action' => 'view', $imprint['Imprint']['slug'])); ?></li>
+    <li><a href="/">Home</a><span class="divider">/</span></li>
+    <li><a href="{% url imprint_index %}">Imprints</a><span class="divider">/</span></li>
+    <li><a href="{% url imprint_view imprint.slug %}">{{ imprint.slug }}</a></li>
   </ul>
   
-  {{ imprint.title }}
-  
   <div class="page-header">
-    <h1><?php echo $imprint['Imprint']['title']; ?></h1>
+    <h1>{{ imprint.title }}</h1>
   </div>
 
   <div class="row">
     <div class="span10">
       <div class="media-grid">
-        <?php if ($imprint['Imprint']['imp_type'] == '2')
-            echo '<li>' . $this->Html->link($this->Html->image('http://s3.zimity.me/' . $imprint['Imprint']['slug'] . '_m.jpg'), 'http://s3.zimity.me/' . $imprint['Imprint']['slug'] . '.jpg', array('escape' => false, 'class' => 'lightbox', 'title' => 'adsfasf')) . '</li>';
-        ?>
+	      {% if imprint.type == imprint.PHOTO %}
+	      <li><a href="http://s3.zimity.me/{{ imprint.slug }}.jpg"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_m.jpg" /></a></li>
+	      {% endif %}
       </div>
 
-      <p><?php echo $imprint['Imprint']['note']; ?></p>
+      <p>{{ imprint.content }}</p>
       
       
         <g:plusone size="medium" annotation="none"></g:plusone>
         <a href="https://twitter.com/share" class="twitter-share-button" data-text="Looking at great photos of real food on Foodtree right now." data-count="horizontal" data-via="foodtree"></a>
         <div class="fb-like" data-send="false" data-layout="button_count" data-show-faces="false"></div>
-		  
-      <form action="" class="form-stacked">
-        <div class="clearfix">
-          <label for="comment">Comment</label>
 
-          <div class="input">
-            <textarea class="xxlarge" id="comment" name="comment" rows="3"></textarea>
-          </div>
+      {% load comments %}
 
-          <div class="actions">
-            <input type="submit" class="btn primary" value=
-            "Post Comment" />&nbsp;<button type="reset" class="btn">Cancel</button>
-          </div>
-        </div>
-      </form>
+      {% render_comment_form for imprint %}
 
       <table class="zebra-striped">
         <tbody>
-	  <?php
-	  foreach($imprint['Comment'] as $comments) {
-	     echo '<tr><td>PIC</td><td>' . $comments['user_id'] . '</td>';
-              echo '<td>' . $comments['comment'] . '</td></tr>';
-	  }
-          ?>
+	  {% get_comment_list for imprint as comment_list %}
+	  {% for comment in comment_list %}
+	     <tr>
+	        <td>{{ comment.name }}</td>
+	        <td>{{ comment.comment }}</td>
+	     </tr>
+	  {% endfor %}
         </tbody>
       </table>
     </div>
@@ -63,20 +51,20 @@
     <div class="span4">
       <dl>
         <dt>Name</dt>
-        <dd><?php echo $this->Html->link($imprint['User']['firstname'], array('controller' => 'users', 'action' => 'view', $imprint['User']['id'])); ?></dd>
+        <dd><a href="{% url user_view imprint.user.id %}">{{ imprint.user.first_name }}</a></dd>
       </dl>
 
       <div id="map_canvas"></div>
 
       <dl>
         <dt>Latitude</dt>
-        <dd><?php echo $imprint['Imprint']['latitude']; ?></dd>
+        <dd>{{ imprint.latitude }}</dd>
 
         <dt>Longitude</dt>
-        <dd><?php echo $imprint['Imprint']['longitude']; ?></dd>
+        <dd>{{ imprint.longitude }}</dd>
 
         <dt>Altitude</dt>
-        <dd><?php echo $imprint['Imprint']['altitude']; ?></dd>
+        <dd>{{ imprint.altitude }}</dd>
       </dl>
       
       <br />
@@ -99,7 +87,7 @@
   //<![CDATA[
 
   function initialize() {
-    var myLatlng = new google.maps.LatLng(<?php echo $imprint['Imprint']['latitude']; ?>, <?php echo $imprint['Imprint']['longitude']; ?>);
+    var myLatlng = new google.maps.LatLng({{ imprint.latitude }}, {{ imprint.longitude }});
     var myOptions = {
       zoom: 16,
       center: myLatlng,
