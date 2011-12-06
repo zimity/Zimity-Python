@@ -14,7 +14,7 @@
 	  <ul class="media-grid">
 	    
 	    {% for user in users %}
-	       <a href="/u/view/{{user.id}}">{{ user.username }}</a>
+	       <a href="{{user.get_absolute_url}}">{{ user.username }}</a>
 	    {% endfor %}
 
 	  </ul>

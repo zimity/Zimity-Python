@@ -16,8 +16,14 @@
     {% endif %}
   {% endfor %}
 
-
-<input type="hidden" name="next" value="{% url user_index  %}" />
+{% if imprint %}
+     <input type="hidden" name="next" value="{{ imprint.get_absolute_url }}" />
+{% else %}
+     {% if user %}
+          <input type="hidden" name="next" value="{{ user.get_absolute_url }}" />
+     {% endif %}
+{% endif %}
+     
 
      <div class="actions">
      <input type="submit" class="btn primary" name="post" value=

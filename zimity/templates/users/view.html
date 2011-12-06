@@ -35,7 +35,7 @@
           <ul class="media-grid">
 	    {% for imprint in user.imprint_set.all %}
 	      {% if imprint.type == imprint.PHOTO %}
-	      <li><a rel="popover" title="{{ imprint.title }}" href="{% url imprint_view imprint.slug %}"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
+	      <li><a rel="popover" title="{{ imprint.title }}" data-content="{{ imprint.content }}" href="{{ imprint.get_absolute_url }}"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
 	      {% endif %}
 	    {% endfor %}
           </ul>
@@ -47,7 +47,7 @@
 	  <ul class="media-grid">
 	    {% for imprint in user.imprint_set.all %}
 	      {% if imprint.type == imprint.VIDEO %}
-	      <li><a rel="popover" title="{{ imprint.title }}" href="{% url imprint_view imprint.slug %}"><img alt="{{ imprint.title }}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
+	      <li><a rel="popover" title="{{ imprint.title }}" href="{{ imprint.get_absolute_url }}"><img alt="{{ imprint.title }}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
 	      {% endif %}
 	    {% endfor %}
 	  </ul>
@@ -59,7 +59,7 @@
 	  <ul class="media-grid">
 	    {% for imprint in user.imprint_set.all %}
 	      {% if imprint.type == imprint.NOTE %}
-	      <li><a rel="popover" title="{{ imprint.title }}" href="{% url imprint_view imprint.slug %}">{{ imprint.title }}</a></li>
+	      <li><a rel="popover" title="{{ imprint.title }}" data-content="{{ imprint.content }}" href="{{ imprint.get_absolute_url }}">{{ imprint.title }}</a></li>
 	      {% endif %}
 	    {% endfor %}
 	  </ul>
@@ -71,7 +71,7 @@
 	  <ul class="media-grid">
 	    {% for imprint in user.imprint_set.all %}
 	      {% if imprint.type == imprint.AUDIO %}
-	      <li><a rel="popover" title="{{ imprint.title }}" href="{% url imprint_view imprint.slug %}"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
+	      <li><a rel="popover" title="{{ imprint.title }}" href="{{ imprint.get_absolute_url }}"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
 	      {% endif %}
 	    {% endfor %}
 	  </ul>
@@ -83,7 +83,7 @@
 	  <ul class="media-grid">
 	    {% for imprint in user.imprint_set.all %}
 	      {% if imprint.type == imprint.EVENT %}
-	      <li><a rel="popover" title="{{ imprint.title }}" href="{% url imprint_view imprint.slug %}"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
+	      <li><a rel="popover" title="{{ imprint.title }}" href="{{ imprint.get_absolute_url }}"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
 	      {% endif %}
 	    {% endfor %}
 	  </ul>
@@ -95,7 +95,7 @@
 	  <ul class="media-grid">
 	    {% for imprint in user.imprint_set.all %}
 	      {% if imprint.type == imprint.REMINDER %}
-	      <li><a rel="popover" title="{{ imprint.title }}" href="{% url imprint_view imprint.slug %}"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
+	      <li><a rel="popover" title="{{ imprint.title }}" href="{{ imprint.get_absolute_url }}"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
 	      {% endif %}
 	    {% endfor %}
 	  </ul>
@@ -107,7 +107,7 @@
 	  <ul class="media-grid">
 	    {% for imprint in user.imprint_set.all %}
 	      {% if imprint.type == imprint.DEAL %}
-	      <li><a rel="popover" title="{{ imprint.title }}" href="{% url imprint_view imprint.slug %}"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
+	      <li><a rel="popover" title="{{ imprint.title }}" data-content="{{ imprint.content }}" href="{{ imprint.get_absolute_url }}"><img alt="{{ imprint.title}}" src="http://s3.zimity.me/{{ imprint.slug }}_s.jpg" /></a></li>
 	      {% endif %}
 	    {% endfor %}
 	  </ul>
@@ -116,20 +116,23 @@
       
       {% load comments %}
 
-      {% render_comment_form for user %}
+      {% if request.user.is_authenticated %}
+	{% render_comment_form for user %}
+      {% endif %}
 
       <table class="zebra-striped">
         <tbody>
 	  {% get_comment_list for user as comment_list %}
 	  {% for comment in comment_list %}
 	     <tr>
-	        <td>{{ comment.name }}</td>
-	        <td>{{ comment.comment }}</td>
+	        <td class="span2"><a href="{{ comment.user.get_absolute_url }}">{{ comment.name }}</a></td>
+	        <td class="span8">{{ comment.comment }}</td>
 	     </tr>
 	  {% endfor %}
         </tbody>
       </table>
     </div>
+    
 
     <div class="span4">
       <h3>Profile</h3>

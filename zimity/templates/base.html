@@ -96,12 +96,19 @@
         </li>
 
           </ul>
-          <form action="" class="pull-right">
-            <input class="input-small" type="text" placeholder="Username">
-            <input class="input-small" type="password" placeholder="Password">
+          {% load url from future %}
+          
+          {% if not request.user.is_authenticated %}
+          <form action="{% url 'django.contrib.auth.views.login' %}" class="pull-right" method="post">
+            {% csrf_token %}
+            <input class="input-small" type="text" name="username" placeholder="Username">
+            <input class="input-small" type="password" name="password" placeholder="Password">
             <button class="btn primary" type="submit">Sign in</button>
             <a href="#" class="btn success">Sign up</a>
           </form>
+          {% else %}
+            <div class="pull-right">Logged in as: {{ user.username }} [<a href="/logout/">Logout</a>]</div>
+          {% endif %}
         </div>
       </div>
     </div>

@@ -15,16 +15,32 @@ AUTH_PROFILE_MODULE = 'zimity.UserProfile'
 
 COMMENTS_APP = 'zimity'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'zimitypython',                      # Or path to database file if using sqlite3.
-        'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': 'root',                  # Not used with sqlite3.
-        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '8889',                      # Set to empty string for default. Not used with sqlite3.
-    }
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda o: "/u/%s/" % o.username,
 }
+
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'zimitypython',                      # Or path to database file if using sqlite3.
+           'USER': 'root',                      # Not used with sqlite3.
+           'PASSWORD': 'root',                  # Not used with sqlite3.
+           'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
+           'PORT': '8889',                      # Set to empty string for default. Not used with sqlite3.
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'zimitypython',                      # Or path to database file if using sqlite3.
+           'USER': 'root',                      # Not used with sqlite3.
+           'PASSWORD': 'root',                  # Not used with sqlite3.
+           'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
+           'PORT': '8889',                      # Set to empty string for default. Not used with sqlite3.
+        }
+    }
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -49,9 +65,11 @@ USE_I18N = True
 # calendars according to the current locale
 USE_L10N = True
 
+SETTINGS_DIR = os.path.abspath(os.path.dirname(__file__));
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '/Users/mjparinas/Documents/Zimity-Python/zimity/media/'
+MEDIA_ROOT = os.path.join(SETTINGS_DIR, 'zimity/media/')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -62,7 +80,7 @@ MEDIA_URL = '/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = '/Users/mjparinas/Documents/Zimity-Python/zimity/static/'
+STATIC_ROOT = os.path.join(SETTINGS_DIR, 'zimity/static/')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -121,7 +139,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'Zimity-Python.urls'
 
 TEMPLATE_DIRS = (
-    '/Users/mjparinas/Documents/Zimity-Python/zimity/templates'
+    os.path.join(os.path.abspath(os.path.dirname(__file__)), 'zimity/templates/'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

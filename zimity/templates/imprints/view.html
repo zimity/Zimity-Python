@@ -9,7 +9,7 @@
   <ul class="breadcrumb">
     <li><a href="/">Home</a><span class="divider">/</span></li>
     <li><a href="{% url imprint_index %}">Imprints</a><span class="divider">/</span></li>
-    <li><a href="{% url imprint_view imprint.slug %}">{{ imprint.slug }}</a></li>
+    <li><a href="{{ imprint.get_absolute_url }}">{{ imprint.slug }}</a></li>
   </ul>
   
   <div class="page-header">
@@ -33,14 +33,16 @@
 
       {% load comments %}
 
-      {% render_comment_form for imprint %}
+      {% if request.user.is_authenticated %}
+	{% render_comment_form for imprint %}
+      {% endif %}
 
       <table class="zebra-striped">
         <tbody>
 	  {% get_comment_list for imprint as comment_list %}
 	  {% for comment in comment_list %}
 	     <tr>
-	        <td>{{ comment.name }}</td>
+	        <td><a href="{{ comment.user.get_absolute_url }}">{{ comment.name }}</a></td>
 	        <td>{{ comment.comment }}</td>
 	     </tr>
 	  {% endfor %}
@@ -51,7 +53,7 @@
     <div class="span4">
       <dl>
         <dt>Name</dt>
-        <dd><a href="{% url user_view imprint.user.id %}">{{ imprint.user.first_name }}</a></dd>
+        <dd><a href="{{ imprint.user.get_absolute_url }}">{{ imprint.user.first_name }}</a></dd>
       </dl>
 
       <div id="map_canvas"></div>

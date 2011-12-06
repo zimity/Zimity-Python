@@ -1,6 +1,9 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
+from autoslug.fields import AutoSlugField
+
+User._meta.ordering = ['-last_login']
 
 class UserProfile(models.Model):
     # required field
@@ -23,6 +26,12 @@ def create_user_profile(sender, instance, created, **kwargs):
 post_save.connect(create_user_profile, sender=User)
     
 class Imprint(models.Model):
+    class Meta:
+        ordering = ['-created']
+        
+    def get_absolute_url(self):
+        return "/i/%s/%s" % (self.created.strftime("%Y/%m/%d").lower(), self.slug)
+
     NOTE = 1
     PHOTO = 2
     AUDIO = 3
@@ -54,7 +63,7 @@ class Imprint(models.Model):
     )
     
     user = models.ForeignKey(User)
-    slug = models.SlugField(max_length=6)
+    slug = AutoSlugField(populate_from='title', unique_with='created')
     type = models.IntegerField(choices=IMPRINT_TYPE)
     title = models.CharField(max_length=50)
     content = models.TextField(blank=True)
